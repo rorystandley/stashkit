@@ -10,6 +10,10 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,12 +54,11 @@ jobs:
             git commit -m "chore: release"
           fi
 
-      - name: Publish to npm
+      - name: Publish to npm (Trusted Publishing)
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          npm run release
+          NPM_CONFIG_PROVENANCE: "true"
+          NPM_CONFIG_ACCESS: "public"
+        run: npm run release
 
       - name: Push changes and tags
         env:
