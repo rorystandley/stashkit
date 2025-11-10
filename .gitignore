@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+lib/
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing & tooling
+.eslintcache
+.stylelintcache
+.turbo/
+
+# Docs tooling
+.docusaurus/
+.vitepress/cache/
+docs/.vitepress/dist/
+
+# Environment & local config
+.env*
+.DS_Store
+*.local
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
