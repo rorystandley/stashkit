@@ -129,7 +129,7 @@ Bug reports and feature ideas are welcome via GitHub issues.
 ---
 
 ## Releasing
-Maintainers can follow the step-by-step guide in [`RELEASE.md`](RELEASE.md) covering versioning, changelog updates, tagging, and npm publishing. Changesets powers the automated changelog flow—record a release note via `npm run changeset`, run `npm run version-packages`, then follow the release guide or trigger the `Release` GitHub Action (manual workflow) to publish via npm Trusted Publishing (OIDC, no long-lived tokens).
+Maintainers can follow the step-by-step guide in [`RELEASE.md`](RELEASE.md) covering versioning, changelog updates, tagging, and npm publishing. Changesets powers the automated changelog flow—record a release note via `npm run changeset`, run `npm run version-packages`, then follow the release guide or trigger the `Release` GitHub Action (manual workflow) to publish via npm Trusted Publishing (OIDC, no long-lived tokens). The workflow automatically upgrades npm to the latest release (>=11.5.1) so Trusted Publishing stays compatible with registry requirements.
 
 ---
 

@@ -9,6 +9,8 @@ This document walks maintainers through cutting a new StashKit release. All comm
 
 After that, `npm publish --provenance` (invoked by our release workflow) can authenticate via GitHub’s OIDC identity automatically.
 
+> **Note:** Trusted Publishing currently requires npm CLI 11.5.1 or newer. The GitHub workflow upgrades npm automatically, but if you publish manually ensure `npm --version` meets that requirement.
+
 ## 1. Prerequisites
 - You have publish access to the `stashkit` package on npm.
 - You are on the `develop` branch with a clean working tree.

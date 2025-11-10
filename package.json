@@ -1,6 +1,6 @@
 {
   "name": "stashkit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Modern, dependency-free browser storage helper with TTL, namespaces, and graceful fallbacks.",
   "type": "module",
   "main": "./dist/index.js",
