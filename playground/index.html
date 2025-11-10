@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>StashKit Playground</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+        max-width: 720px;
+        color: #111;
+        background: #f9fafb;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        padding: 0.6rem 0.75rem;
+        font: inherit;
+        margin-bottom: 0.9rem;
+      }
+
+      button {
+        cursor: pointer;
+        border: none;
+        border-radius: 999px;
+        padding: 0.55rem 1.35rem;
+        font-weight: 600;
+        background: #2563eb;
+        color: white;
+        transition: background 120ms ease;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      .flex {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      pre {
+        background: #0f172a;
+        color: #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        overflow: auto;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>StashKit Playground</h1>
+    <p>
+      Quick throwaway harness to manually test the <code>stashkit</code> build in a browser. Run
+      <code>npm run playground</code> from the repo root to build, copy the bundle locally, and serve this directory.
+    </p>
+
+    <section class="card">
+      <h2>Set value</h2>
+      <form id="set-form">
+        <label for="set-key">Key</label>
+        <input id="set-key" name="key" value="user" placeholder="key" required />
+
+        <label for="set-value">Value (JSON)</label>
+        <textarea id="set-value" name="value" rows="4" placeholder='{"id":1,"name":"Ada"}' required></textarea>
+
+        <label for="set-ttl">TTL (seconds, optional)</label>
+        <input id="set-ttl" name="ttl" type="number" min="0" placeholder="e.g. 30" />
+
+        <button type="submit">Set value</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Get / Remove</h2>
+      <div class="flex">
+        <input id="key-input" value="user" placeholder="key" />
+        <button id="get-btn" type="button">Get</button>
+        <button id="remove-btn" type="button">Remove</button>
+        <button id="clear-btn" type="button">Clear namespace</button>
+      </div>
+      <pre id="output"></pre>
+    </section>
+
+    <script type="module">
+      import { createStore } from "./stashkit.js";
+
+      const store = createStore({
+        namespace: "playground"
+      });
+
+      const output = document.getElementById("output");
+      const keyInput = document.getElementById("key-input");
+
+      const write = (value) => {
+        output.textContent = value;
+      };
+
+      document.getElementById("get-btn").addEventListener("click", () => {
+        const key = keyInput.value.trim();
+        const value = store.get(key);
+        write(JSON.stringify({ key, value }, null, 2));
+      });
+
+      document.getElementById("remove-btn").addEventListener("click", () => {
+        const key = keyInput.value.trim();
+        store.remove(key);
+        write(`Removed ${key}`);
+      });
+
+      document.getElementById("clear-btn").addEventListener("click", () => {
+        store.clear();
+        write("Cleared namespace");
+      });
+
+      document.getElementById("set-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const key = formData.get("key").trim();
+        const ttl = formData.get("ttl");
+        try {
+          const parsed = JSON.parse(formData.get("value"));
+          store.set(key, parsed, ttl ? { ttl: Number(ttl) } : undefined);
+          write(`Stored ${key}`);
+        } catch (error) {
+          write(`Invalid JSON: ${error.message}`);
+        }
+      });
+
+      write("Ready. Try storing something!");
+      window.stashkitStore = store;
+    </script>
+  </body>
+</html>

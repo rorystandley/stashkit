@@ -81,6 +81,7 @@ If native storage isn’t usable (exceptions thrown on `setItem`/`removeItem`), 
 | `npm run changeset` | Create a new Changeset (changelog + version bump metadata). |
 | `npm run version-packages` | Apply pending Changesets to bump versions/changelog locally. |
 | `npm run release` | Publish the package using Changesets (runs `changeset publish`). |
+| `npm run playground` | Optional helper to serve the browser playground (see below). |
 
 ### Running Tests with Coverage
 ```bash
@@ -94,6 +95,17 @@ npm run lint
 ```
 
 CI (GitHub Actions) installs dependencies, lints, runs `npm run test:ci`, and builds on pushes/PRs targeting `main` or `develop`.
+
+### Browser Playground
+For quick manual testing in a real browser:
+1. Run:
+   ```bash
+   npm run playground
+   ```
+   This builds the library, copies the emitted `dist/index.js` into `playground/stashkit.js`, and serves the playground directory.
+2. Visit `http://localhost:3000` (or whichever port `serve` prints). The auto-generated bundle lives alongside the HTML, so module imports succeed without CORS/MIME issues.
+
+The playground loads from `dist/index.js`, so every rebuild reflects your latest changes.
 
 ---
 

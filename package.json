@@ -25,7 +25,8 @@
     "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
     "changeset": "changeset",
     "release": "changeset publish",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "playground": "npm run build && node -e \"const fs=require('node:fs');fs.copyFileSync('dist/index.js','playground/stashkit.js');\" && npx --yes serve playground"
   },
   "keywords": [
     "localstorage",

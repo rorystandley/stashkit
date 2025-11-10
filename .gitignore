@@ -37,6 +37,9 @@ coverage/
 .vitepress/cache/
 docs/.vitepress/dist/
 
+# Playground artifacts
+playground/stashkit.js
+
 # Environment & local config
 .env*
 .DS_Store
